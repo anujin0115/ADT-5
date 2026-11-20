@@ -1,6 +1,3 @@
-# You can remove 'pass' if you written code in the function
-# Do NOT use .append() or .pop() inside the Enqueue and Dequeue functions - move the pointers yourself.
-
 LinearQueue = []
 LinearHead = -1
 LinearTail = -1
