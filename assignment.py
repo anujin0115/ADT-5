@@ -1,58 +1,98 @@
 # You can remove 'pass' if you written code in the function
 # Do NOT use .append() or .pop() inside the Enqueue and Dequeue functions - move the pointers yourself.
 
-# Exercise 1 - Linear queue
 LinearQueue = []
 LinearHead = -1
 LinearTail = -1
-# Write code here to fill LinearQueue with 8 elements, all "" (empty string)
+for _ in range(8):
+    LinearQueue.append("")
 
 
 def LinearEnqueue(Name):
-    # Write your code here
-    pass
+    global LinearHead, LinearTail
+    if LinearTail == 7:
+        return False
+    if LinearHead == -1:
+        LinearHead = 0
+    LinearTail += 1
+    LinearQueue[LinearTail] = Name
+    return True
 
 
 def LinearDequeue():
-    # Write your code here
-    pass
+    global LinearHead
+    if LinearHead == -1 or LinearHead > LinearTail:
+        return ""
+    name = LinearQueue[LinearHead]
+    LinearHead += 1
+    return name
 
 
 def LinearCount():
-    # Write your code here
-    pass
+    if LinearHead == -1 or LinearHead > LinearTail:
+        return 0
+    return LinearTail - LinearHead + 1
 
 
-# Exercise 2 - Circular queue
 CircularQueue = []
 CircularHead = -1
 CircularTail = -1
 NumberItems = 0
-# Write code here to fill CircularQueue with 5 elements, all "" (empty string)
+for _ in range(5):
+    CircularQueue.append("")
 
 
 def CircularEnqueue(Name):
-    # Write your code here
-    pass
+    global CircularHead, CircularTail, NumberItems
+    if NumberItems == 5:
+        return False
+    if NumberItems == 0:
+        CircularHead = 0
+        CircularTail = 0
+    else:
+        CircularTail += 1
+        if CircularTail == 5:
+            CircularTail = 0
+    CircularQueue[CircularTail] = Name
+    NumberItems += 1
+    return True
 
 
 def CircularDequeue():
-    # Write your code here
-    pass
+    global CircularHead, CircularTail, NumberItems
+    if NumberItems == 0:
+        return ""
+    name = CircularQueue[CircularHead]
+    CircularHead += 1
+    if CircularHead == 5:
+        CircularHead = 0
+    NumberItems -= 1
+    if NumberItems == 0:
+        CircularHead = -1
+        CircularTail = -1
+    return name
 
 
 def GetItem(Position):
-    # Write your code here
-    pass
+    if Position < 0 or Position >= NumberItems:
+        return ""
+    index = (CircularHead + Position) % 5
+    return CircularQueue[index]
 
 
-# Exercise 3 - The bank
 def Arrive(Name):
-    # Write your code here
-    pass
+    if CircularEnqueue(Name):
+        return "inside"
+    if LinearEnqueue(Name):
+        return "outside"
+    return "full"
 
 
 def Serve():
-    # Write your code here
-    pass
-
+    served_customer = CircularDequeue()
+    if served_customer == "":
+        return ""
+    next_customer = LinearDequeue()
+    if next_customer != "":
+        CircularEnqueue(next_customer)
+    return served_customer
